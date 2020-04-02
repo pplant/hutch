@@ -34,6 +34,11 @@ module Hutch
         @queue_type = nil
       end
 
+      def message(message)
+        @queue_name = message
+        @routing_keys << message + ".#"
+      end
+
       attr_reader :queue_mode, :queue_type, :initial_group_size
 
       # Explicitly set the queue name
