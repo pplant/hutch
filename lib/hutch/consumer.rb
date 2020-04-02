@@ -27,8 +27,8 @@ module Hutch
     module ClassMethods
       # Add one or more routing keys to the set of routing keys the consumer
       # wants to subscribe to.
-      def consume(*routing_keys)
-        @routing_keys = self.routing_keys.union(routing_keys)
+      def consume(class_name)
+        @routing_keys = class_name.name.underscore
         # these are opt-in
         @queue_mode = nil
         @queue_type = nil
