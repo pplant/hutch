@@ -84,7 +84,6 @@ module Hutch
     def set_up_amqp_connection
       open_connection!
       open_channel!
-      declare_exchange!
       declare_publisher!
     end
 
@@ -120,18 +119,13 @@ module Hutch
       @channel = open_channel
     end
 
-    def declare_exchange(ch = channel)
-      exchange_name = @config[:mq_exchange]
+    def declare_exchange(exchange_name)
       exchange_options = { durable: true }.merge(@config[:mq_exchange_options])
       logger.info "using topic exchange '#{exchange_name}'"
 
       with_bunny_precondition_handler('exchange') do
-        ch.topic(exchange_name, exchange_options)
+        channel.topic("exchange." + exchange_name, exchange_options)
       end
-    end
-
-    def declare_exchange!(*args)
-      @exchange = declare_exchange(*args)
     end
 
     def declare_publisher!
@@ -209,7 +203,7 @@ module Hutch
     # Bind a queue to the broker's exchange on the routing keys provided. Any
     # existing bindings on the queue that aren't present in the array of
     # routing keys will be unbound.
-    def bind_queue(queue, routing_keys)
+    def bind_queue(exchange, queue, routing_keys)
       unbind_redundant_bindings(queue, routing_keys)
 
       # Ensure all the desired bindings are present

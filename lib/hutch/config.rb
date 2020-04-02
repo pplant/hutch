@@ -140,7 +140,7 @@ module Hutch
     boolean_setting :consumer_pool_abort_on_exception, false
 
     # Prefix displayed on the consumers tags.
-    string_setting :consumer_tag_prefix, 'hutch'
+    string_setting :consumer_tag_prefix, 'app'
 
     string_setting :group, ''
 
