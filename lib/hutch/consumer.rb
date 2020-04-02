@@ -36,7 +36,7 @@ module Hutch
 
       def message(message)
         @queue_name = message
-        @routing_keys = self.routing_keys.push(message + ".#")
+        @routing_keys = self.routing_keys.add(message + ".#")
       end
 
       attr_reader :queue_mode, :queue_type, :initial_group_size
