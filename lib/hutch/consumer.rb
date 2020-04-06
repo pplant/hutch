@@ -9,7 +9,6 @@ module Hutch
 
     def self.included(base)
       base.extend(ClassMethods)
-      Hutch.register_consumer(base)
     end
 
     def reject!
