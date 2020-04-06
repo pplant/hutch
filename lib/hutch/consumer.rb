@@ -27,16 +27,12 @@ module Hutch
     module ClassMethods
       # Add one or more routing keys to the set of routing keys the consumer
       # wants to subscribe to.
-      def consume(*routing_keys)
-        @routing_keys = self.routing_keys.union(routing_keys)
+      def consume(message)
+        @queue_name = message
+        @routing_keys = self.routing_keys.add(message + ".#")
         # these are opt-in
         @queue_mode = nil
         @queue_type = nil
-      end
-
-      def message(message)
-        @queue_name = message
-        @routing_keys = self.routing_keys.add(message + ".#")
       end
 
       attr_reader :queue_mode, :queue_type, :initial_group_size
