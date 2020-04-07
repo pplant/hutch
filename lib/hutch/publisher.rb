@@ -32,7 +32,9 @@ module Hutch
       log_publication(serializer, payload, routing_key)
 
       p "declar exchange"
-      exchange = @broker.declare_exchange(routing_key)
+
+      
+      exchange = channel.topic("exchange." + exchange_name, { passive: true })
       p "send message"
       exchange.publish(payload, {persistent: true}.
         merge(properties).
