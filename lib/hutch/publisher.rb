@@ -31,14 +31,18 @@ module Hutch
 
       log_publication(serializer, payload, routing_key)
 
-      #raise "There is no exchange! routing_key:" + routing_key unless connection.exchange_exists?("exchange." + routing_key)
-
-      @broker.declare_exchange(routing_key).publish(payload, {persistent: true}.
+      p "declar exchange"
+      exchange = @broker.declare_exchange(routing_key)
+      p "send message"
+      exchange.publish(payload, {persistent: true}.
         merge(properties).
         merge(global_properties).
         merge(non_overridable_properties))
 
+      p "confirm wating"
       channel.wait_for_confirms if config[:force_publisher_confirms]
+
+      p "response"
       response
     end
 
