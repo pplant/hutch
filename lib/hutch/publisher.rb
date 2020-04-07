@@ -30,7 +30,9 @@ module Hutch
 
       log_publication(serializer, payload, routing_key)
 
-      response = exchange.publish(payload, {persistent: true}.
+      raise "There is no exchange! routing_key:" + routing_key unless channel.exchange_exists?("exchange." + routing_key)
+      
+      response = channel.topic("exchange." + routing_key).publish(payload, {persistent: true}.
         merge(properties).
         merge(global_properties).
         merge(non_overridable_properties))
