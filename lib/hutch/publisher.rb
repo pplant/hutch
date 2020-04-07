@@ -34,7 +34,7 @@ module Hutch
       p "declar exchange"
 
       
-      exchange = channel.topic("exchange." + exchange_name, { passive: true })
+      exchange = channel.topic("exchange." + routing_key, { passive: true })
       p "send message"
       exchange.publish(payload, {persistent: true}.
         merge(properties).
