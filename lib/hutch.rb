@@ -20,8 +20,16 @@ module Hutch
     self.consumers << consumer
   end
 
+  def self.register_message(mesasge)
+    self.messages << message
+  end
+
   def self.consumers
     @consumers ||= []
+  end
+
+  def self.messages
+    @messages ||= []
   end
 
   def self.logger
@@ -44,6 +52,8 @@ module Hutch
   def self.connect(options = {}, config = Hutch::Config)
     @@connection_mutex.synchronize do
       unless connected?
+        p @messages
+        p "----"
         @broker = Hutch::Broker.new(config)
         @broker.connect(options)
       end
