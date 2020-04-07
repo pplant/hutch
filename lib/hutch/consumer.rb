@@ -24,6 +24,11 @@ module Hutch
     end
 
     module ClassMethods
+
+      def register
+        Hutch.register_consumer(self)
+      end
+
       # Add one or more routing keys to the set of routing keys the consumer
       # wants to subscribe to.
       def consume(message)
