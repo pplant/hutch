@@ -124,12 +124,12 @@ module Hutch
       logger.info "using topic exchange '#{exchange_name}'"
 
       with_bunny_precondition_handler('exchange') do
-        channel.topic("exchange." + exchange_name, exchange_options)
+        return channel.topic("exchange." + exchange_name, exchange_options)
       end
     end
 
     def declare_publisher!
-      @publisher = Hutch::Publisher.new(connection, channel, exchange, @config)
+      @publisher = Hutch::Publisher.new(connection, channel, exchange, @config, self)
     end
 
     # Set up the connection to the RabbitMQ management API. Unfortunately, this

@@ -7,11 +7,12 @@ module Hutch
     include Logging
     attr_reader :connection, :channel, :exchange, :config
 
-    def initialize(connection, channel, exchange, config = Hutch::Config)
+    def initialize(connection, channel, exchange, config = Hutch::Config, broker)
       @connection = connection
       @channel    = channel
       @exchange   = exchange
       @config     = config
+      @broker     = broker
     end
 
     def publish(routing_key, message, properties = {}, options = {})
@@ -32,7 +33,7 @@ module Hutch
 
       #raise "There is no exchange! routing_key:" + routing_key unless connection.exchange_exists?("exchange." + routing_key)
 
-      response = channel.topic("exchange." + routing_key).publish(payload, {persistent: true}.
+      @broker.declare_exchange(routing_key).publish(payload, {persistent: true}.
         merge(properties).
         merge(global_properties).
         merge(non_overridable_properties))
