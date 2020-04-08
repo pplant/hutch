@@ -20,6 +20,7 @@ module Hutch
       def get_queue
         @queue_name
       end
-
+      
+    end
   end
 end
