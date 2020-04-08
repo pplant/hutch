@@ -23,7 +23,7 @@ module Hutch
       @exchanges[name] = exchange
     end
 
-    def publish(routing_key, message, properties = {}, options = {})
+    def publish(routing_key, message, properties = {}, headers = {}, options = {})
       ensure_connection!(routing_key, message)
 
       serializer = options[:serializer] || config[:serializer]
@@ -49,7 +49,8 @@ module Hutch
       response = @exchanges[routing_key].publish(payload, {persistent: true}.
         merge(properties).
         merge(global_properties).
-        merge(non_overridable_properties)
+        merge(non_overridable_properties).
+        merge({headers: headers})
         )
 
       channel.wait_for_confirms if config[:force_publisher_confirms]
