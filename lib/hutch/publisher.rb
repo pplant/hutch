@@ -26,7 +26,10 @@ module Hutch
     def publish(routing_key, message, properties = {}, options = {})
       ensure_connection!(routing_key, message)
 
+      p properties
+      p "AAA"
       serializer = options[:serializer] || config[:serializer]
+      p serializer
 
       non_overridable_properties = {
         routing_key:  routing_key,
