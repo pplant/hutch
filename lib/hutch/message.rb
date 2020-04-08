@@ -21,7 +21,7 @@ module Hutch
 
     def to_s
       attrs = { :@body => body.to_s, message_id: message_id,
-                timestamp: timestamp, routing_key: routing_key }
+                timestamp: timestamp, routing_key: routing_key, properties: properties }
       "#<Message #{attrs.map { |k,v| "#{k}=#{v.inspect}" }.join(', ')}>"
     end
 
