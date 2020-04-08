@@ -8,9 +8,6 @@ module Hutch
     module ClassMethods
 
       def register
-        p self
-        p self.get_queue
-        p "***"
         Hutch.register_message(self.get_queue)
       end
 

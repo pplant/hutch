@@ -124,6 +124,9 @@ module Hutch
 
       with_bunny_precondition_handler('exchange') do
         exchange = channel.topic("exchange." + exchange_name, { passive: true })
+        p exchange
+        p name
+        p "****"
         @publisher.add_exchange(exchange_name, exchange)
       end
     end
