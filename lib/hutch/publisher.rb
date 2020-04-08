@@ -26,10 +26,7 @@ module Hutch
     def publish(routing_key, message, properties = {}, options = {})
       ensure_connection!(routing_key, message)
 
-      p properties
-      p "AAA"
       serializer = options[:serializer] || config[:serializer]
-      p serializer
 
       non_overridable_properties = {
         routing_key:  routing_key,
@@ -37,17 +34,23 @@ module Hutch
         content_type: serializer.content_type,
       }
       properties[:message_id]   ||= generate_id
-      p properties
-      p "AAAŽŽŽŽ"
 
       payload = serializer.encode(message)
 
       log_publication(serializer, payload, routing_key)
 
+      a = {persistent: true}.
+        merge(properties).
+        merge(global_properties).
+        merge(non_overridable_properties)
+      p a
+      p "****!"  
+
       response = @exchanges[routing_key].publish(payload, {persistent: true}.
         merge(properties).
         merge(global_properties).
-        merge(non_overridable_properties))
+        merge(non_overridable_properties)
+        )
 
       channel.wait_for_confirms if config[:force_publisher_confirms]
 
