@@ -23,7 +23,7 @@ module Hutch
       @exchanges[name] = exchange
     end
 
-    def publish(routing_key, message, properties = {}, headers = {}, options = {})
+    def publish(routing_key, message, properties = {}, options = {})
       ensure_connection!(routing_key, message)
 
       serializer = options[:serializer] || config[:serializer]
@@ -42,8 +42,7 @@ module Hutch
       setting = {persistent: true}.
         merge(properties).
         merge(global_properties).
-        merge(non_overridable_properties).
-        merge({headers: headers})
+        merge(non_overridable_properties)
       p setting
       p "****!"  
 
