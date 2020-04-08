@@ -9,8 +9,9 @@ module Hutch
 
       def register
         p self
+        p self.get_queue
         p "***"
-        Hutch.register_message(self)
+        Hutch.register_message(self.get_queue)
       end
 
       def set_queue name
@@ -20,7 +21,7 @@ module Hutch
       def get_queue
         @queue_name
       end
-      
+
     end
   end
 end
