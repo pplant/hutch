@@ -34,6 +34,8 @@ module Hutch
         content_type: serializer.content_type,
       }
       properties[:message_id]   ||= generate_id
+      p properties
+      p "AAAŽŽŽŽ"
 
       payload = serializer.encode(message)
 

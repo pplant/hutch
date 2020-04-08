@@ -72,7 +72,7 @@ module Hutch
         "payload: #{spec}"
       }
 
-      p consumer
+      p consumer.get_message_class
       p "XXX"
       message = Message.new(delivery_info, properties, payload, serializer, consumer.get_message_class)
       consumer_instance = consumer.new.tap { |c| c.broker, c.delivery_info = @broker, delivery_info }
