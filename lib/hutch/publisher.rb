@@ -40,7 +40,7 @@ module Hutch
       log_publication(serializer, payload, routing_key)
 
       p @exchanges
-      p @exchanges[name]
+      p @exchanges[routing_key]
       p "-zzzz-----"
       response = @exchanges[routing_key].publish(payload, {persistent: true}.
         merge(properties).
