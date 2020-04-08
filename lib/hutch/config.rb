@@ -1,6 +1,6 @@
 require 'hutch/error_handlers/logger'
 require 'hutch/tracers'
-require 'hutch/serializers/json'
+require 'hutch/serializers/oj'
 require 'erb'
 require 'logger'
 
