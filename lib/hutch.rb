@@ -22,7 +22,7 @@ module Hutch
   end
 
   def self.register_message(mesasge)
-    broker.declare_exchange(mesasge)
+    broker.declare_passive_exchange(mesasge)
   end
 
   def self.consumers
@@ -53,8 +53,6 @@ module Hutch
   def self.connect(options = {}, config = Hutch::Config)
     @@connection_mutex.synchronize do
       unless connected?
-        p @messages
-        p "----"
         @broker = Hutch::Broker.new(config)
         @broker.connect(options)
       end

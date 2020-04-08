@@ -7,12 +7,20 @@ module Hutch
     include Logging
     attr_reader :connection, :channel, :exchange, :config
 
-    def initialize(connection, channel, exchange, config = Hutch::Config, broker)
+    def initialize(connection, channel, config = Hutch::Config, broker)
       @connection = connection
       @channel    = channel
-      @exchange   = exchange
+      @exchanges   = {}
       @config     = config
       @broker     = broker
+    end
+
+    def set_exchanges(exchanges)
+      @exchanges = exchanges
+    end
+
+    def add_exchange(name, exchange)
+      @exchanges[name] = exchange
     end
 
     def publish(routing_key, message, properties = {}, options = {})
@@ -31,8 +39,7 @@ module Hutch
 
       log_publication(serializer, payload, routing_key)
 
-      exchange = channel.topic("exchange." + routing_key, { passive: true }) # TODO: move to global exchange
-      response = exchange.publish(payload, {persistent: true}.
+      response = @exchanges[routing_key].publish(payload, {persistent: true}.
         merge(properties).
         merge(global_properties).
         merge(non_overridable_properties))
