@@ -21,7 +21,9 @@ module Hutch
   end
 
   def self.register_message(mesasge)
-    self.messages << message
+    p mesasge
+    p "---"
+    broker.declare_exchange(mesasge)
   end
 
   def self.consumers
