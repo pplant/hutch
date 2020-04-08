@@ -39,20 +39,15 @@ module Hutch
 
       log_publication(serializer, payload, routing_key)
 
-      a = {persistent: true}.
-        merge(properties).
-        merge(global_properties).
-        merge(non_overridable_properties)
-      p a
-      p "****!"  
-
-      response = @exchanges[routing_key].publish(payload, {persistent: true}.
+      setting = {persistent: true}.
         merge(properties).
         merge(global_properties).
         merge(non_overridable_properties).
         merge({headers: headers})
-        )
+      p setting
+      p "****!"  
 
+      response = @exchanges[routing_key].publish(payload, setting)
       channel.wait_for_confirms if config[:force_publisher_confirms]
 
       response
