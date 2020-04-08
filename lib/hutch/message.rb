@@ -6,11 +6,11 @@ module Hutch
 
     attr_reader :delivery_info, :properties, :payload
 
-    def initialize(delivery_info, properties, payload, serializer)
+    def initialize(delivery_info, properties, payload, serializer, object_class)
       @delivery_info = delivery_info
       @properties    = properties
       @payload       = payload
-      @body          = serializer.decode(payload)
+      @body          = serializer.decode(payload, object_class)
     end
 
     def_delegator :@body, :[]
