@@ -31,20 +31,14 @@ module Hutch
 
       log_publication(serializer, payload, routing_key)
 
-      p "declar exchange"
-
-      
-      exchange = channel.topic("exchange." + routing_key, { passive: true })
-      p "send message"
-      exchange.publish(payload, {persistent: true}.
+      exchange = channel.topic("exchange." + routing_key, { passive: true }) # TODO: move to global exchange
+      response = exchange.publish(payload, {persistent: true}.
         merge(properties).
         merge(global_properties).
         merge(non_overridable_properties))
 
-      p "confirm wating"
       channel.wait_for_confirms if config[:force_publisher_confirms]
 
-      p "response"
       response
     end
 

@@ -21,8 +21,6 @@ module Hutch
   end
 
   def self.register_message(mesasge)
-    p mesasge
-    p "---"
     broker.declare_exchange(mesasge)
   end
 
