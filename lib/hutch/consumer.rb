@@ -9,7 +9,6 @@ module Hutch
 
     def self.included(base)
       base.extend(ClassMethods)
-      Hutch.register_consumer(base)
     end
 
     def reject!
@@ -25,9 +24,15 @@ module Hutch
     end
 
     module ClassMethods
+
+      def register
+        Hutch.register_consumer(self)
+      end
+
       # Add one or more routing keys to the set of routing keys the consumer
       # wants to subscribe to.
-      def consume(message)
+      def consume(message_class, message)
+        @message_class = message_class
         @queue_name = message
         @routing_keys = self.routing_keys.add(message + ".#")
         # these are opt-in
@@ -79,6 +84,10 @@ module Hutch
         queue_name = self.name.gsub(/::/, ':')
         queue_name.gsub!(/([^A-Z:])([A-Z])/) { "#{$1}_#{$2}" }
         queue_name.downcase
+      end
+
+      def get_message_class
+        return @message_class
       end
 
       # Returns consumer custom arguments.

@@ -45,6 +45,7 @@ module Hutch
     # Bind a consumer's routing keys to its queue, and set up a subscription to
     # receive messages sent to the queue.
     def setup_queue(consumer)
+      
       logger.info "setting up queue with exchange: #{consumer.get_queue_name}"
       prefix = Hutch::Config[:consumer_tag_prefix]
 
@@ -70,7 +71,7 @@ module Hutch
         "payload: #{spec}"
       }
 
-      message = Message.new(delivery_info, properties, payload, serializer)
+      message = Message.new(delivery_info, properties, payload, serializer, consumer.get_message_class)
       consumer_instance = consumer.new.tap { |c| c.broker, c.delivery_info = @broker, delivery_info }
       with_tracing(consumer_instance).handle(message)
       @broker.ack(delivery_info.delivery_tag)

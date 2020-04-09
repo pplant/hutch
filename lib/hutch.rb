@@ -5,7 +5,9 @@ require 'hutch/broker'
 require 'hutch/logging'
 require 'hutch/serializers/identity'
 require 'hutch/serializers/json'
+require 'hutch/serializers/oj'
 require 'hutch/config'
+require 'hutch/message_registration'
 require 'hutch/message'
 require 'hutch/cli'
 require 'hutch/version'
@@ -20,8 +22,16 @@ module Hutch
     self.consumers << consumer
   end
 
+  def self.register_message(mesasge)
+    broker.declare_passive_exchange(mesasge)
+  end
+
   def self.consumers
     @consumers ||= []
+  end
+
+  def self.messages
+    @messages ||= []
   end
 
   def self.logger

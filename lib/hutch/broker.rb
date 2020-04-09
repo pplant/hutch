@@ -119,17 +119,26 @@ module Hutch
       @channel = open_channel
     end
 
+    def declare_passive_exchange(exchange_name)
+      logger.info "declare passive exchange '#{exchange_name}'"
+
+      with_bunny_precondition_handler('exchange') do
+        exchange = channel.topic("exchange." + exchange_name, { passive: true })
+        @publisher.add_exchange(exchange_name, exchange)
+      end
+    end
+
     def declare_exchange(exchange_name)
       exchange_options = { durable: true }.merge(@config[:mq_exchange_options])
       logger.info "using topic exchange '#{exchange_name}'"
 
       with_bunny_precondition_handler('exchange') do
-        channel.topic("exchange." + exchange_name, exchange_options)
+        return channel.topic("exchange." + exchange_name, exchange_options)
       end
     end
 
     def declare_publisher!
-      @publisher = Hutch::Publisher.new(connection, channel, exchange, @config)
+      @publisher = Hutch::Publisher.new(connection, channel, @config, self)
     end
 
     # Set up the connection to the RabbitMQ management API. Unfortunately, this

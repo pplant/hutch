@@ -6,11 +6,11 @@ module Hutch
 
     attr_reader :delivery_info, :properties, :payload
 
-    def initialize(delivery_info, properties, payload, serializer)
+    def initialize(delivery_info, properties, payload, serializer, object_class)
       @delivery_info = delivery_info
       @properties    = properties
       @payload       = payload
-      @body          = serializer.decode(payload)
+      @body          = serializer.decode(payload, object_class)
     end
 
     def_delegator :@body, :[]
@@ -21,7 +21,7 @@ module Hutch
 
     def to_s
       attrs = { :@body => body.to_s, message_id: message_id,
-                timestamp: timestamp, routing_key: routing_key }
+                timestamp: timestamp, routing_key: routing_key, properties: properties }
       "#<Message #{attrs.map { |k,v| "#{k}=#{v.inspect}" }.join(', ')}>"
     end
 

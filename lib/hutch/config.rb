@@ -1,6 +1,6 @@
 require 'hutch/error_handlers/logger'
 require 'hutch/tracers'
-require 'hutch/serializers/json'
+require 'hutch/serializers/oj'
 require 'erb'
 require 'logger'
 
@@ -179,7 +179,7 @@ module Hutch
         tracer: Hutch::Tracers::NullTracer,
         namespace: nil,
         pidfile: nil,
-        serializer: Hutch::Serializers::JSON
+        serializer: Hutch::Serializers::Oj
       })
     end
 
