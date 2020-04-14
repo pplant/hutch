@@ -43,6 +43,10 @@ module Hutch
         merge(properties).
         merge(global_properties).
         merge(non_overridable_properties)
+
+      p @exchanges
+      p routing_key
+      p @exchanges[routing_key]
       
       response = @exchanges[routing_key].publish(payload, setting)
       channel.wait_for_confirms if config[:force_publisher_confirms]
