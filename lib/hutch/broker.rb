@@ -130,7 +130,6 @@ module Hutch
         else
           logger.warn "we can't find exchange '#{prefix_exchange_name}'! Sending of '#{exchange_name}' won't work!"
         end
-        }
       end
     end
 
