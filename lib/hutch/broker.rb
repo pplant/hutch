@@ -124,11 +124,12 @@ module Hutch
       logger.info "declare passive exchange '#{prefix_exchange_name}'"
 
       with_bunny_precondition_handler('exchange') do
-        connection.exchange_exists?(prefix_exchange_name) {
+        if connection.exchange_exists?(prefix_exchange_name)
           exchange = channel.topic(prefix_exchange_name, { passive: true })
           @publisher.add_exchange(exchange_name, exchange)
-        } else {
+        else
           logger.warn "we can't find exchange '#{prefix_exchange_name}'! Sending of '#{exchange_name}' won't work!"
+        end
         }
       end
     end
