@@ -120,20 +120,28 @@ module Hutch
     end
 
     def declare_passive_exchange(exchange_name)
-      logger.info "declare passive exchange '#{exchange_name}'"
+      prefix_exchange_name = "exchange." + exchange_name
+      logger.info "declare passive exchange '#{prefix_exchange_name}'"
 
       with_bunny_precondition_handler('exchange') do
-        exchange = channel.topic("exchange." + exchange_name, { passive: true })
-        @publisher.add_exchange(exchange_name, exchange)
+        connection.exchange_exists?(prefix_exchange_name) {
+          exchange = channel.topic(prefix_exchange_name, { passive: true })
+          @publisher.add_exchange(exchange_name, exchange)
+        } else {
+          logger.warn "we can't find exchange '#{prefix_exchange_name}'! Sending of '#{exchange_name}' won't work!"
+        }
       end
     end
 
     def declare_exchange(exchange_name)
+      prefix_exchange_name = "exchange." + exchange_name
       exchange_options = { durable: true }.merge(@config[:mq_exchange_options])
-      logger.info "using topic exchange '#{exchange_name}'"
+      logger.info "using topic exchange '#{prefix_exchange_name}'"
 
       with_bunny_precondition_handler('exchange') do
-        return channel.topic("exchange." + exchange_name, exchange_options)
+        exchange = channel.topic(prefix_exchange_name, exchange_options)
+        @publisher.add_exchange(exchange_name, exchange)
+        return exchange
       end
     end
 
