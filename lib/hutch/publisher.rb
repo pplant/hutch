@@ -23,6 +23,10 @@ module Hutch
       @exchanges[name] = exchange
     end
 
+    def exchange_exist?(name)
+      @exchanges[name] != nil
+    end
+
     def publish(routing_key, message, properties = {}, options = {})
       ensure_connection!(routing_key, message)
 
@@ -47,7 +51,7 @@ module Hutch
       p @exchanges
       p routing_key
       p @exchanges[routing_key]
-      
+
       response = @exchanges[routing_key].publish(payload, setting)
       channel.wait_for_confirms if config[:force_publisher_confirms]
 
