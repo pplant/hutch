@@ -128,7 +128,7 @@ module Hutch
           exchange = channel.topic(prefix_exchange_name, { passive: true })
           @publisher.add_exchange(exchange_name, exchange)
         else
-          logger.warn "we can't find exchange '#{prefix_exchange_name}'! Sending of '#{exchange_name}' won't work!"
+          logger.warn "we can't find exchange '#{prefix_exchange_name}'! Sending of message '#{exchange_name}' won't work!"
         end
       end
     end
