@@ -14,6 +14,8 @@ module Hutch
       end
 
       def self.decode(payload, object_class)
+        p payload
+        p object_class
         ::Oj.load(payload, mode: :rails, object_class: object_class)
       end
 
