@@ -6,17 +6,17 @@ module Hutch
     class Oj
 
       def self.encode(payload)
-        ::Oj.dump(payload, mode: :rails)
+        ::Oj.dump(payload, mode: :custom, time_format: :ruby)
       end
 
       def self.decode(payload)
-        ::Oj.load(payload, mode: :rails)
+        ::Oj.load(payload, mode: :custom, time_format: :ruby)
       end
 
       def self.decode(payload, object_class)
         p payload
         p object_class
-        ::Oj.load(payload, mode: :rails, object_class: object_class)
+        ::Oj.load(payload, mode: :custom, time_format: :ruby, object_class: object_class)
       end
 
       def self.binary? ; false ; end
