@@ -6,7 +6,7 @@ module Hutch
     class Oj
 
       def self.encode(payload)
-        ::Oj.dump(payload, mode: :custom, time_format: :ruby)
+        ::Oj.dump(payload, mode: :custom, time_format: :ruby, omit_nil: true)
       end
 
       def self.decode(payload)
