@@ -34,7 +34,8 @@ module Hutch
       def consume(message_class, message, max_retry = 3)
         @message_class = message_class
         @queue_name = message
-        @routing_keys = self.routing_keys.add(message + ".#")
+        @routing_keys = self.routing_keys.add("#{message}.#")
+        @routing_keys.add("#{Hutch::Config[:consumer_tag_prefix]}.#{message}")
         # these are opt-in
         @queue_mode = nil
         @queue_type = nil

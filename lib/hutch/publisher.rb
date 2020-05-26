@@ -48,7 +48,9 @@ module Hutch
         merge(global_properties).
         merge(non_overridable_properties)
 
-      response = @exchanges[routing_key].publish(payload, setting)
+      exchange_key = routing_key
+      exchange_key = exchange_key.gsub(/^#{config[:consumer_tag_prefix]}./, "") if config[:consumer_tag_prefix]
+      response = @exchanges[exchange_key].publish(payload, setting)
       channel.wait_for_confirms if config[:force_publisher_confirms]
 
       response
