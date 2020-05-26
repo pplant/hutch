@@ -119,6 +119,12 @@ module Hutch
       @channel = open_channel
     end
 
+    def declare_dead_letter queue_name
+      exchange = declare_exchange("exchange." + queue_name)
+      queue = queue("dead." + queue_name)
+      bind_queue(exchange, queue, "#")
+    end
+
     def declare_passive_exchange(exchange_name)
       return if @publisher.exchange_exist?(exchange_name)
 

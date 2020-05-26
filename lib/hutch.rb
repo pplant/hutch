@@ -26,6 +26,10 @@ module Hutch
     broker.declare_passive_exchange(mesasge)
   end
 
+  def self.declare_dead_letter(name)
+    broker.declare_dead_letter(name)
+  end
+
   def self.consumers
     @consumers ||= []
   end
