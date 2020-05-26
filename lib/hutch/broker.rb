@@ -120,7 +120,7 @@ module Hutch
     end
 
     def declare_dead_letter queue_name
-      exchange = declare_exchange("exchange." + queue_name)
+      exchange = declare_exchange(queue_name)
       queue = queue("dead." + queue_name)
       bind_queue(exchange, queue, ["#"])
     end
