@@ -27,7 +27,7 @@ module Hutch
       @exchanges[name] != nil
     end
 
-    def publish(routing_key, message, properties = {}, options = {})
+    def publish(routing_key, message, properties = {}, options = {}, encode = true)
       ensure_connection!(routing_key, message)
 
       serializer = options[:serializer] || config[:serializer]
@@ -39,7 +39,7 @@ module Hutch
       }
       properties[:message_id]   ||= generate_id
 
-      payload = serializer.encode(message)
+      payload = encode ? serializer.encode(message) : message
 
       log_publication(serializer, payload, routing_key)
 
