@@ -22,6 +22,7 @@ module Hutch
     def run
       setup_queues
       setup_procs.each(&:call)
+      setup_dead_letter('dead-letter')
 
       Waiter.wait_until_signaled
 
@@ -40,6 +41,12 @@ module Hutch
       vetted.each do |c|
         setup_queue(c)
       end
+    end
+
+    def setup_dead_letter queue_name
+      exchange = @broker.declare_exchange("exchange." + queue_name)
+      queue = @broker.queue("dead." + queue_name)
+      @broker.bind_queue(exchange, queue, "#")
     end
 
     # Bind a consumer's routing keys to its queue, and set up a subscription to
