@@ -31,13 +31,14 @@ module Hutch
 
       # Add one or more routing keys to the set of routing keys the consumer
       # wants to subscribe to.
-      def consume(message_class, message)
+      def consume(message_class, message, max_retry = 3)
         @message_class = message_class
         @queue_name = message
         @routing_keys = self.routing_keys.add(message + ".#")
         # these are opt-in
         @queue_mode = nil
         @queue_type = nil
+        @max_retry = max_retry
       end
 
       attr_reader :queue_mode, :queue_type, :initial_group_size
@@ -87,7 +88,11 @@ module Hutch
       end
 
       def get_message_class
-        return @message_class
+        @message_class
+      end
+
+      def get_max_retry
+        @max_retry || 0
       end
 
       # Returns consumer custom arguments.

@@ -76,7 +76,7 @@ module Hutch
       with_tracing(consumer_instance).handle(message)
       @broker.ack(delivery_info.delivery_tag)
     rescue => ex
-      acknowledge_error(delivery_info, properties, @broker, ex)
+      acknowledge_error(delivery_info, properties, payload, consumer, @broker, ex)
       handle_error(properties, payload, consumer, ex)
     end
 
@@ -90,11 +90,11 @@ module Hutch
       end
     end
 
-    def acknowledge_error(delivery_info, properties, broker, ex)
+    def acknowledge_error(delivery_info, properties, payload, consumer, broker, ex)
       acks = error_acknowledgements +
         [Hutch::Acknowledgements::NackOnAllFailures.new]
       acks.find do |backend|
-        backend.handle(delivery_info, properties, broker, ex)
+        backend.handle(delivery_info, properties, payload, consumer, broker, ex)
       end
     end
 

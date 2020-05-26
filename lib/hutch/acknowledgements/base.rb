@@ -8,7 +8,7 @@ module Hutch
       # chain will be invoked.
       #
       # The chain always falls back to unconditional nacking.
-      def handle(delivery_info, properties, broker, ex)
+      def handle(delivery_info, properties, payload, consumer, broker, ex)
         raise NotImplementedError.new
       end
     end
