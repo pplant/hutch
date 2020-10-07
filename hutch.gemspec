@@ -9,7 +9,6 @@ Gem::Specification.new do |gem|
     gem.add_runtime_dependency 'bunny', '>= 2.14', '< 2.16'
   end
   gem.add_runtime_dependency 'carrot-top', '~> 0.0.7'
-  gem.add_runtime_dependency 'multi_json'
   gem.add_runtime_dependency 'oj'
   gem.add_runtime_dependency 'activesupport', '>= 4.2', '< 7'
 
