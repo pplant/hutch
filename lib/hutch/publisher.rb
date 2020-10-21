@@ -50,9 +50,13 @@ module Hutch
 
       exchange_key = routing_key
       exchange_key = exchange_key.gsub(/^#{config[:consumer_tag_prefix]}./, "") if config[:consumer_tag_prefix]
+      if @exchanges[exchange_key].nil?
+        logger.info "We can't publish the message, because 'exchange.#{exchange_key}' dosen't exist!"
+        return nil
+      end
+
       response = @exchanges[exchange_key].publish(payload, setting)
       channel.wait_for_confirms if config[:force_publisher_confirms]
-
       response
     end
 
