@@ -18,6 +18,7 @@ module Hutch
     end
 
     def self.logger
+      p logger
       @logger || setup_logger
     end
 
@@ -26,6 +27,7 @@ module Hutch
     end
 
     def logger
+      p logger
       Hutch::Logging.logger
     end
   end
