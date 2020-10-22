@@ -11,14 +11,14 @@ module Hutch
 
     def self.setup_logger
       require 'hutch/config'
-      @logger = Logger.new($stdout).tap do |l|
+      
+      @logger = Logger.new(STDOUT).tap do |l|
         l.level = Hutch::Config.log_level
         l.formatter = HutchFormatter.new
       end
     end
 
     def self.logger
-      p @logger || setup_logger
       @logger || setup_logger
     end
 
@@ -27,7 +27,6 @@ module Hutch
     end
 
     def logger
-      p Hutch::Logging.logger
       Hutch::Logging.logger
     end
   end
