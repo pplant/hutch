@@ -144,7 +144,6 @@ module Hutch
     def declare_exchange(exchange_name)
       prefix_exchange_name = "exchange." + exchange_name
       exchange_options = { durable: true }.merge(@config[:mq_exchange_options])
-      p logger
       logger.info "using topic exchange '#{prefix_exchange_name}'"
 
       with_bunny_precondition_handler('exchange') do
