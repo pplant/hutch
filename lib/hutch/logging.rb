@@ -23,7 +23,6 @@ module Hutch
     end
 
     def self.logger=(logger)
-      @logger = logger
     end
 
     def logger
