@@ -126,6 +126,7 @@ module Hutch
     end
 
     def declare_passive_exchange(exchange_name)
+      p "dsadsadsadasdsadsadsadsads"
       return if @publisher.exchange_exist?(exchange_name)
 
       prefix_exchange_name = "exchange." + exchange_name
