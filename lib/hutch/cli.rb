@@ -84,7 +84,7 @@ module Hutch
           #::Rails.application.eager_load!
           
           logger.info "autoload consumers"
-          autoloader = ::Rails.autoloaders.main
+          autoloader = ::Rails.application.autoloaders.main
           Dir.glob(File.join('app/consumers', '*_consumer.rb')).each do |consumer|
             autoloader.preload(consumer)
           end
