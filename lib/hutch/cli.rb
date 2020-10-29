@@ -79,8 +79,16 @@ module Hutch
           ENV['RACK_ENV'] ||= ENV['RAILS_ENV'] || 'development'
           logger.info "found rails project (#{path}), booting app in #{ENV['RACK_ENV']} environment"
           require rails_path
-          logger.info "start eager_load"
-          ::Rails.application.eager_load!
+          
+          #logger.info "start eager_load"
+          #::Rails.application.eager_load!
+          
+          logger.info "autoload consumers"
+          autoloader = ::Rails.autoloaders.main
+          Dir.glob(File.join('app/consumers', '*_consumer.rb')).each do |consumer|
+            autoloader.preload(consumer)
+          end
+
           return true
         end
       end
