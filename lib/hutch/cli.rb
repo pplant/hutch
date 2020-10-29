@@ -81,8 +81,7 @@ module Hutch
           require rails_path
           
           #logger.info "start eager_load"
-          #::Rails.application.eager_load!
-          
+          ::Rails.application.config.autoload_paths += Dir["#{Rails.root}/app/consumers/*.rb"].each { |file| require file }
 
           return true
         end
