@@ -78,6 +78,9 @@ module Hutch
         if is_rails_app && File.exist?(rails_path)
           ENV['RACK_ENV'] ||= ENV['RAILS_ENV'] || 'development'
           logger.info "found rails project (#{path}), booting app in #{ENV['RACK_ENV']} environment"
+          
+          require "rails"
+          require "sidekiq/rails"
           require rails_path
 
           return true
