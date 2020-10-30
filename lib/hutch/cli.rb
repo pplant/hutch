@@ -79,9 +79,6 @@ module Hutch
           ENV['RACK_ENV'] ||= ENV['RAILS_ENV'] || 'development'
           logger.info "found rails project (#{path}), booting app in #{ENV['RACK_ENV']} environment"
           require rails_path
-          
-          #logger.info "start eager_load"
-          ::Rails.application.config.autoload_paths += Dir["#{Rails.root}/app/consumers/*.rb"].each { |file| require file }
 
           return true
         end
