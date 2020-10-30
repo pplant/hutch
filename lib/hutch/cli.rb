@@ -83,6 +83,10 @@ module Hutch
           require "sidekiq/rails"
           require rails_path
 
+          logger.info "loaded rails"
+
+          Dir["#{Rails.root}/app/consumers/**/*.rb"].each { |file| require file }
+
           return true
         end
       end
