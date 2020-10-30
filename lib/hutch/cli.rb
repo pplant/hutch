@@ -80,14 +80,12 @@ module Hutch
           logger.info "found rails project (#{path}), booting app in #{ENV['RACK_ENV']} environment"
           
           require "rails"
-          logger.info "loaded rails"
           require "sidekiq/rails"
-          logger.info "loaded rails"
           require rails_path
 
           logger.info "loaded rails"
 
-          Dir["#{Rails.root}/app/consumers/**/*.rb"].each { |file| require file }
+          Dir["#{Rails.root}/app/consumers/**/*.rb"].each { |file| require_dependency file }
 
           return true
         end
